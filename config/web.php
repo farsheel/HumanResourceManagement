@@ -46,6 +46,11 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'Totalsal' => [
+ 
+            'class' => 'app\components\Totalsal',
+ 
+            ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

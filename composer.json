@@ -22,7 +22,14 @@
         "yiisoft/yii2-jui": "*",
         "wbraganca/yii2-dynamicform": "dev-master",
         "mootensai/yii2-relation-trait": "*",
-        "kartik-v/yii2-widget-fileinput": "@dev"
+        "kartik-v/yii2-widget-fileinput": "@dev",
+        "kartik-v/yii2-dialog": "@dev",
+        "kartik-v/yii2-widget-alert": "*",
+        "richardfan1126/yii2-js-register": "*",
+        "dektrium/yii2-user": "0.8.2",
+        "stichoza/google-translate-php": "~2.0",
+        "yiidoc/yii2-redactor": "2.0.0",
+        "yiisoft/yii2-authclient": "*"
 
     },
     "require-dev": {
