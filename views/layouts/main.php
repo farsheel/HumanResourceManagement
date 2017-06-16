@@ -47,7 +47,8 @@ AppAsset::register($this);
         ['label' => 'Manage Employee',
             'items' => [
                 ['label' => 'Enroll Employee', 'url' => ['employee/index']],
-                ['label' => 'Employee Salary', 'url' => ['salary/index']],
+                ['label' => 'Salary Mapping', 'url' => ['salary-map/index']],
+                ['label' => 'Salary Particulars', 'url' => ['salary/index']],
             ],
         ]),
          Yii::$app->user->isGuest ?(""): (   
