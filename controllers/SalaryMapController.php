@@ -50,6 +50,9 @@ class SalaryMapController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
         $message = (isset($_GET['status'])) ? $_GET['status'] : 'not set' ;
         
         $query = new Query;
@@ -88,6 +91,9 @@ class SalaryMapController extends Controller
      */
     public function actionView($id)
     {
+        if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
         //taking details of the salary mapping with the employee id
         $model=TblSalaryMapping::find()->where(['fk_int_emp_id' => $id])->orderBy(['fk_int_particular_id' => SORT_ASC]);
         //taking employee details from the id
@@ -108,6 +114,9 @@ class SalaryMapController extends Controller
      */
     public function actionCreate()
     {
+        if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
         //getting employee names to display in create page combo box
         $employee_name=ArrayHelper::map(TblEmployee::find()->asArray()->all(), 'pk_int_emp_id', 'vchr_name');
         $model = new TblSalaryMapping();
@@ -176,6 +185,9 @@ class SalaryMapController extends Controller
     public function actionUpdate($id)
     {
        
+       if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
 		$model_clear_object=new TblSalaryMapping(); 
         //getting particular id and value of the employee
     	$array_particularid_value = ArrayHelper::map(TblSalaryMapping::find()->where(['fk_int_emp_id' => $id])->all(), 'fk_int_particular_id', 'int_value');
@@ -221,6 +233,9 @@ class SalaryMapController extends Controller
 
         public function actionBatchUpdate()
             {
+                if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+                }
                     //geting post parameters to variable
                     $post_data=Yii::$app->request->post();
 
@@ -264,6 +279,9 @@ class SalaryMapController extends Controller
      */
     public function actionDelete()
     {
+        if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
         //getting post parameters to array
         $post_array=Yii::$app->request->post();
         
@@ -296,6 +314,9 @@ class SalaryMapController extends Controller
 
     public function actionAjax()
     {
+        if (Yii::$app->user->isGuest ) {
+                return $this->redirect(['site/login']);
+        }
         if(isset($_POST['test'])){
 
             $test = $_POST['test'];
