@@ -32,40 +32,46 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     
     <div>
-    <?php $form = ActiveForm::begin([
+        <?php $form = ActiveForm::begin([
                      
                     'method' => 'POST',
                     'action' =>  (['payroll/display']), 
                     'enableClientScript' => true,
-        ]); ?>
+            ]); 
+        ?>
 
-    <div class="row">
-        <div class="col-sm-12" align="center">
-            <?= $form->field($model, 'fk_int_payroll_month')->dropDownList(
-                ArrayHelper::map(TblPayrollMonth::find()->all(), 'pk_int_payroll_month_id','vchr_month'),
-            ['prompt'=> 'Select...'])
-            ?> 
-        </div>
-    </div>
-    <div class="row">
-    
-        <div class="col-sm-12" align="center">
-            <?= $form->field($model, 'fk_int_payroll_year')->dropDownList(
-                ArrayHelper::map(TblPayrollYear::find()->all(), 'pk_int_payroll_year_id','year'),
-            ['prompt'=> 'Seect...'])
-            ?>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4" align="center">
+                <?= $form->field($model, 'fk_int_payroll_month')->dropDownList(
+                    ArrayHelper::map(TblPayrollMonth::find()->all(), 'pk_int_payroll_month_id','vchr_month'),
+                    ['prompt'=> 'Select...'])
+                ?> 
+            </div>
+            <div class="col-sm-4"></div> 
         </div>
         
-    </div>
-    <div class="form-group">
-         
-         <?= Html::submitButton('Show', ['class' => 'btn btn-success', 'name'=>'submit']) ?>
-
-    </div>
-    <?php ActiveForm::end(); ?>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4" align="center" >
+                <?= $form->field($model, 'fk_int_payroll_year')->dropDownList(
+                    ArrayHelper::map(TblPayrollYear::find()->all(), 'pk_int_payroll_year_id','year'),
+                    ['prompt'=> 'Seect...'])
+                ?>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4" align="center">
+            <?= Html::submitButton('Show', ['class' => 'btn btn-success', 'name'=>'submit']) ?>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <?php ActiveForm::end(); ?>
     </div>
      
-    <div>
+    <div class="row">
     <?php 
         if(isset($dataProviderSearch))
         {
@@ -81,7 +87,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' =>  'fk_int_emp_id',
                         'value'     =>  'fkIntEmp.vchr_name'
-                        // 'filter' => Html::activeDropDownList($searchModel, 'fk_int_emp_id', ArrayHelper::map(TblPayroll::find()->asArray()->all(), 'fk_int_emp_id', 'fk_int_emp_id'),['class'=>'kartik\grid\ActionColumn','prompt' => 'Select name'])
                     ],           
                     [   
                         'attribute' =>   'fk_int_payroll_month',
@@ -98,35 +103,4 @@ $this->params['breadcrumbs'][] = $this->title;
         } 
     ?> 
     </div>
-<!-- <?php //Pjax::begin(); ?>    <?php //GridView::widget([
-        //'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        //'columns' => [
-          //  ['class' => 'yii\grid\SerialColumn'],
-
-  //          'pk_int_payroll_id',
-//            [
-    //            'attribute' =>  'fk_int_emp_id',
-      //          'value'     =>  'fkIntEmp.vchr_name',
-        //        'filter' => Html::activeDropDownList($searchModel, 'fk_int_emp_id', ArrayHelper::map(TblPayroll::find()->asArray()->all(), 'fk_int_emp_id', 'fk_int_emp_id'),['class'=>'kartik\grid\ActionColumn','prompt' => 'Select name'])
-          //  ],           
-          //  'vchr_worked_hours',
-          //  'vchr_actual_hours',
-           // [   
-            //    'attribute' =>   'fk_int_payroll_month',
-            //    'value'     =>   'fkIntPayrollMonth.vchr_month',
-            //    'filter' => Html::activeDropDownList($searchModel, 'fk_int_payroll_month', ArrayHelper::map(TblPayroll::find()->asArray()->all(), 'fk_int_payroll_month', 'fk_int_payroll_month'),['class'=>'kartik\grid\ActionColumn','prompt' => 'Select Month'])   
-        //    ],
-         //   [   
-          //      'attribute' =>   'fk_int_payroll_year',
-           //     'value'     =>   'fkIntPayrollYear.year',
-            //    'filter' => Html::activeDropDownList($searchModel, 'fk_int_payroll_year', ArrayHelper::map(TblPayroll::find()->asArray()->all(), 'fk_int_payroll_year', 'fk_int_payroll_year'),['class'=>'kartik\grid\ActionColumn','prompt' => 'Select year'])   
-           // ],
-            
-            
-
-            //['class' => 'yii\grid\ActionColumn'],
-     //   ],
-    //]); ?>
-<?php //Pjax::end(); ?> </div>
- -->
+</div>

@@ -57,10 +57,10 @@ class PayrollController extends Controller
      */
     public function actionIndex()
     {   
-      if (Yii::$app->user->isGuest ) 
+        if (Yii::$app->user->isGuest) 
         {
             return $this->redirect(['/site/login']);
-      }
+        }
 
         $model          =   new TblPayroll();
         $searchModel    =   new PayrollSearch();
@@ -145,34 +145,30 @@ class PayrollController extends Controller
         $salary     =   new TblSalaryMapping();
         $payroll    =   new TblPayrollDetails();         
                 
-        //create new TblPayroll
+        
         if($model->load(Yii::  $app->request->post()) && $model->save())              
         { 
           
-          $salary->fk_int_particular_id=0;
-          /** This retrieves salary information of employee.
-          */ 
+          $salary->fk_int_particular_id = 0; 
           $salary = TblSalaryMapping::find()->where(['fk_int_emp_id' => $model->fk_int_emp_id])->all(); 
-          /*
-            Create new TblPayrollDetails, and modify the salary based on worked hours, and store it.
-            in success save it will redirect to view.
-          */
           foreach ($salary as $salary) 
           {
-                $payroll = new TblPayrollDetails();
-                $model = TblPayroll::find()->where(['pk_int_payroll_id' => $model->pk_int_payroll_id])->one();
-                $payroll->fk_salary_particular_id = $salary->fk_int_particular_id;
-                $payroll->fk_int_payroll_id = $model->pk_int_payroll_id;
-                if($salary->fk_int_particular_id==1) 
+                $payroll  =   new TblPayrollDetails();
+                $model    =   TblPayroll::find()->where(['pk_int_payroll_id' => $model->pk_int_payroll_id])->one();
+                $payroll->fk_salary_particular_id   =   $salary->fk_int_particular_id;
+                $payroll->fk_int_payroll_id         =   $model->pk_int_payroll_id;
+                
+
+                if($salary->fk_int_particular_id == 1) 
                 {         
                   $modifiedSalary = (($salary->int_value / $model->vchr_actual_hours) * $model->vchr_worked_hours);
-                  $payroll->int_amount = $modifiedSalary;
+                  $payroll->int_amount   =   $modifiedSalary;
                 }
                 else
                 {
-                  $payroll->int_amount = $salary->int_value;
+                  $payroll->int_amount   =   $salary->int_value;
                 }
-                $payroll->isNewRecord = true;
+                $payroll->isNewRecord    = true;
                 $payroll->save(); 
             }  
             return $this->redirect(['view', 'id' => $model->pk_int_payroll_id]);
@@ -251,13 +247,13 @@ class PayrollController extends Controller
         $model      =   new TblPayroll();   
         if(Yii::$app->request->post()!=null) 
         {
-            $data = Yii::$app->request->post();
-            $month = $data['TblPayroll']['fk_int_payroll_month'];
-            $year = $data['TblPayroll']['fk_int_payroll_year'];
-            /* Be careful with this! */
+            $data   =   Yii::$app->request->post();
+            $month  =   $data['TblPayroll']['fk_int_payroll_month'];
+            $year   =   $data['TblPayroll']['fk_int_payroll_year'];
+            
             $dataProviderSearch = new ActiveDataProvider
             ([
-                'query' => TblPayroll::find()->where(['fk_int_payroll_month'=>$month, 'fk_int_payroll_year'=> $year]),
+                'query'      => TblPayroll::find()->where(['fk_int_payroll_month'=>$month, 'fk_int_payroll_year'=> $year]),
                 'pagination' => ['pageSize' => 5],
             ]);
     
