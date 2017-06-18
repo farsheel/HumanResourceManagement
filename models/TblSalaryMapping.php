@@ -33,7 +33,10 @@ class TblSalaryMapping extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fk_int_emp_id', 'fk_int_particular_id', 'int_value'], 'integer'],
+            [['fk_int_emp_id', 'fk_int_particular_id'], 'integer'],
+            [['int_value'], 'integer','message' => 'Value must be an integer'],
+            [['int_value'],'required','message' => 'Value cannot be empty'],
+            [['fk_int_emp_id'],'required','message' => 'Please choose an employee'],
             [['date_created', 'date_modified'], 'safe'],
             [['fk_int_emp_id'], 'exist', 'skipOnError' => true, 'targetClass' => TblEmployee::className(), 'targetAttribute' => ['fk_int_emp_id' => 'pk_int_emp_id']],
             [['fk_int_particular_id'], 'exist', 'skipOnError' => true, 'targetClass' => TblSalaryParticular::className(), 'targetAttribute' => ['fk_int_particular_id' => 'pk_int_particular_id']],
