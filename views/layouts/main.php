@@ -117,6 +117,7 @@ $menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
           <button class="dropbtn">Manage Payroll</button>
           <div class="dropdown-content">
             <a href="index.php?r=payroll/create">Generate Payroll</a>
+            <a href="index.php?r=payroll_for_all/create">Generate Payroll for all</a>
             <a href="index.php?r=payroll/index">View Payroll</a>
 
           </div>
