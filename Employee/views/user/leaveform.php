@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TblLeave */
@@ -10,13 +11,16 @@ use yii\widgets\ActiveForm;
 <div class="user-leaveform">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, 'date_requested')->widget(DatePicker::classname(), [
+    'language' => 'en',
+    'dateFormat' => 'yyyy-MM-dd',
+]) ?>
 
-        <!--<?= $form->field($model, 'fk_int_emp_id') ?>-->
-        <?= $form->field($model, 'date_requested') ?>
+      
+        
         <?= $form->field($model, 'vchr_title') ?>
         <?= $form->field($model, 'vchr_description')->textarea(['rows' => 6]) ?>
-       <!-- <?= $form->field($model, 'fk_status') ?> -->
-    
+       
         <div class="form-group">
             <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
         </div>
