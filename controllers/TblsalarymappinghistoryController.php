@@ -67,11 +67,11 @@ $models=$dataProvider1->getModels();
 $query1=new Query;
 $dataProvider2 = new ActiveDataProvider([
           'query' =>$query1
-          ->select(['vchr_particular_name','int_amount','tbl_salary_mapping_history.date_created']) 
+          ->select(['vchr_particular_name','int_value','tbl_salary_mapping_history.date_created']) 
             ->from('tbl_salary_mapping_history')         
-    ->join('INNER JOIN','tbl_salary_particular' ,'tbl_salary_particular.pk_int_particular_id  =tbl_salary_mapping_history.fk_int_perticular_id')
+    ->join('INNER JOIN','tbl_salary_particular' ,'tbl_salary_particular.pk_int_particular_id  =tbl_salary_mapping_history.fk_int_particular_id')
     ->where(['tbl_salary_mapping_history.fk_int_emp_id'=>$id])
-    ->groupBy(['vchr_particular_name','int_amount'])
+    ->groupBy(['vchr_particular_name','int_value'])
     
 
     ])  ;
@@ -139,8 +139,8 @@ $model2= ArrayHelper::map(TblSalaryParticular::find()->all(),'vchr_particular_na
         
         $model2= new TblSalaryMappingHistory();
         $model2->fk_int_emp_id=$model1->fk_int_emp_id;
-        $model2->fk_int_perticular_id=$model1->fk_int_particular_id;
-        $model2->int_amount=$model1->int_value;
+        $model2->fk_int_particular_id=$model1->fk_int_particular_id;
+        $model2->int_value=$model1->int_value;
         $model2->date_created=$model1->date_created;
         $model2->date_modified=$model1->date_modified;
         $model2->save();
@@ -149,7 +149,7 @@ $model2= ArrayHelper::map(TblSalaryParticular::find()->all(),'vchr_particular_na
     $model1->int_value=$value;
     $model1->update();
        
-       echo "the data is saved";
+       
 
         
        }
