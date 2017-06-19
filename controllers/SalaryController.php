@@ -16,6 +16,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\db\Expression;
+use yii\db\IntegrityException;
 
 /**
  * SalaryController implements the CRUD actions for TblSalaryParticular model.
@@ -46,12 +47,15 @@ class SalaryController extends Controller
         if (Yii::$app->user->isGuest ) {
                 return $this->redirect(['site/login']);
         }
+        $get_data_index=Yii::$app->request->get();
+        $message = (isset($get_data_index['del_status'])) ? $get_data_index['del_status'] : 'not set' ;
         $searchModel = new TblSalaryParticularSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'message' => $message,
         ]);
     }
 
@@ -128,10 +132,24 @@ class SalaryController extends Controller
      */
     public function actionDelete($id)
     {
+        if($id==1)
+        {
+            return $this->redirect('index.php?r=salary/index&del_status=failbase');
+        }
         if (Yii::$app->user->isGuest ) {
                 return $this->redirect(['site/login']);
         }
+        try
+        {
         $this->findModel($id)->delete();
+        }
+        catch(IntegrityException $e)
+        {
+            if($e->getCode()===23000)
+            {
+                return $this->redirect('index.php?r=salary/index&del_status=fail');
+            }
+        }
 
         return $this->redirect(['index']);
     }

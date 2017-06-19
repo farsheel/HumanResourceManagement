@@ -14,21 +14,34 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\TblSalaryParticular */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
+<script>
+    $('#contact-form').on('beforeSubmit', function (e) {
+    if (!confirm("Everything is correct. Submit?")) {
+        return false;
+    }
+    return true;
+});
+</script>
+<div class="row">
+<div class="col-sm-3">
 <div class="tbl-salary-particular-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'vchr_particular_name')->textInput(['maxlength' => true,'style'=>'width:400px']) ?>
+    <?= $form->field($model, 'vchr_particular_name')->textInput(['maxlength' => true,]);//'style'=>'width:400px']) ?>
 
     <?php
     //creating drop down field to select calculation type
-    echo $form->field($model, 'vchr_calculation')->dropDownList(['Addition' => 'Addition', 'Subtraction' => 'Subtraction'],['style'=>'width:400px'],['prompt'=>'Select Option']);
+    echo $form->field($model, 'vchr_calculation')->dropDownList(['Addition' => 'Addition', 'Subtraction' => 'Subtraction'],
+       // ['style'=>'width:400px'],
+        ['prompt'=>'Select Option','id' => 'hi6']);
     ?>
 
     <?php
     //creating drop down field to select type of salary particular
-    echo $form->field($model, 'vchr_type')->dropDownList(['Amount' => 'Amount', 'Percentage' => 'Percentage'],['style'=>'width:400px'],['prompt'=>'Select Option']);
+    echo $form->field($model, 'vchr_type')->dropDownList(['Amount' => 'Amount', 'Percentage' => 'Percentage'],
+        //['style'=>'width:400px'],
+        ['prompt'=>'Select Option']);
     ?>
 
 
@@ -39,4 +52,9 @@ use yii\widgets\ActiveForm;
 
     <?php ActiveForm::end(); ?>
 
+</div>
+</div>
+<div class="col-sm-6">
+    
+</div>
 </div>

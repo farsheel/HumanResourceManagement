@@ -33,6 +33,8 @@ class TblSalaryParticular extends \yii\db\ActiveRecord
     {
         return [
             [['date_created', 'date_modified'], 'safe'],
+            [['vchr_particular_name'],'required'],
+            [['vchr_calculation', 'vchr_type'],'required','message' => 'Please choose an option'],
             [['vchr_particular_name', 'vchr_calculation', 'vchr_type'], 'string', 'max' => 255],
         ];
     }
@@ -43,10 +45,10 @@ class TblSalaryParticular extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pk_int_particular_id' => 'Pk Int Particular ID',
-            'vchr_particular_name' => 'Vchr Particular Name',
-            'vchr_calculation' => 'Vchr Calculation',
-            'vchr_type' => 'Vchr Type',
+            'pk_int_particular_id' => 'Particular ID',
+            'vchr_particular_name' => 'Particular Name',
+            'vchr_calculation' => 'Calculation',
+            'vchr_type' => 'Type',
             'date_created' => 'Date Created',
             'date_modified' => 'Date Modified',
         ];

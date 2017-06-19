@@ -10,6 +10,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Alert;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\TblSalaryParticularSearch */
@@ -26,11 +27,27 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Salary Particular', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+
+
+    <div class="row">
+    <?php 
+        if($message=='fail')
+        {
+            echo Alert::widget(['options' => ['class' => 'alert-info',],'body' => 'Sorry Data cannot be deleted <br> This row references some data of salary mapping.',]);
+        }
+        else if($message=='failbase')
+        {
+            echo Alert::widget(['options' => ['class' => 'alert-info',],'body' => 'Base salary can only be updated',]);
+        }
+    ?>
+    </div>
+
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
 
             'pk_int_particular_id',
             'vchr_particular_name',

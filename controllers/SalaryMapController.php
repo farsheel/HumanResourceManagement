@@ -3,7 +3,7 @@
 /**
 * @author vishnu
 * @date 10/6/17
-* @date-modified 10/6/17
+* @date-modified 18/6/17
 */
 
 
@@ -53,7 +53,8 @@ class SalaryMapController extends Controller
         if (Yii::$app->user->isGuest ) {
                 return $this->redirect(['site/login']);
         }
-        $message = (isset($_GET['status'])) ? $_GET['status'] : 'not set' ;
+        $get_data_index=Yii::$app->request->get();
+        $message = (isset($get_data_index['status'])) ? $get_data_index['status'] : 'not set' ;
         
         $query = new Query;
     //     $query = TblEmployee::find()
@@ -313,10 +314,12 @@ class SalaryMapController extends Controller
 
 
     public function actionAjax()
-    {
+    {   
+        //checking wheather the user is already logged in or not
         if (Yii::$app->user->isGuest ) {
                 return $this->redirect(['site/login']);
         }
+        //getting post data for returning already stored particular values for a user
         if(isset($_POST['test'])){
 
             $test = $_POST['test'];
@@ -329,6 +332,7 @@ class SalaryMapController extends Controller
                 $index++;             
             }
 
+            //encoding data into json format
             return \yii\helpers\Json::encode(
                 
             [

@@ -1,5 +1,9 @@
 <?php
-
+/*
+*last edited : 19/6/2017 1:37 Am
+*By vishnu prasad
+*added hover drop down to menu
+*/
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -33,38 +37,101 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+//registering css required for hover menu
+    $this->registerCss("
+.dropbtn {
+    background-color: #222222;
+    color: #9D9D9D;
+    padding: 15px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+}
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+
+.dropdown-content a {
+    color: black;
+    padding: 8px 8px;
+    text-decoration: none;
+    display: block;
+}
+
+
+.dropdown-content a:hover {background-color: #A8B9A8}
+
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.dropdown:hover .dropbtn {
+    background-color: #222222;
+    color: white;
+    size:20;
+}");
+
+
+//getting all menu items based on logined or not
+$menu_bar='<div class="navbar-nav navbar-right">';
+
+$menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
+    '<div class="dropdown">
+          <button class="dropbtn">Master Entries</button>
+          <div class="dropdown-content">
+            <a href="index.php?r=department/index">Manage Departmens</a>
+            <a href="index.php?r=designation/index">Manage Designation</a>
+          </div>
+</div>');
+
+$menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
+    '<div class="dropdown">
+          <button class="dropbtn">Manage Employee</button>
+          <div class="dropdown-content">
+            <a href="index.php?r=employee/index">Enroll Employee</a>
+            <a href="index.php?r=salary-map/index">Salary Mapping</a>
+            <a href="index.php?r=salary/index">Salary Particulars</a>
+          </div>
+</div>');
+
+$menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
+    '<div class="dropdown">
+          <button class="dropbtn">Manage Payroll</button>
+          <div class="dropdown-content">
+            <a href="index.php?r=payroll/index">Generate Payroll</a>
+          </div>
+</div>');
+
+$menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
+    '<div class="dropdown">
+          <button class="dropbtn">Manage Leave</button>
+          <div class="dropdown-content">
+            <a href="index.php?r=leave/index">Allow Leave</a>
+          </div>
+</div>');
+
+$menu_bar.='</div>';
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-        Yii::$app->user->isGuest ?(""): (
-        ['label' => 'Master Entries',
-            'items' => [
-                ['label' => 'Manage Departmens', 'url' => ['department/index']],
-                ['label' => 'Manage Designation', 'url' => ['designation/index']],
-            ],
-        ]),
-        Yii::$app->user->isGuest ?(""): (
-        ['label' => 'Manage Employee',
-            'items' => [
-                ['label' => 'Enroll Employee', 'url' => ['employee/index']],
-                ['label' => 'Salary Mapping', 'url' => ['salary-map/index']],
-                ['label' => 'Salary Particulars', 'url' => ['salary/index']],
-            ],
-        ]),
-         Yii::$app->user->isGuest ?(""): (   
-        ['label' => 'Manage Payroll',
-            'items' => [
-                ['label' => 'Generate Payroll', 'url' => ['payroll/index']],
-                
-            ],
-        ]),
-         Yii::$app->user->isGuest ?(""): (
-        ['label' => 'Manage Leave',
-            'items' => [
-                ['label' => 'Allow Leave', 'url' => ['leave/index']],
-                
-            ],
-        ]),
 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
@@ -80,6 +147,10 @@ AppAsset::register($this);
             )
         ],
     ]);
+
+    //printing hover menu
+    echo $menu_bar;
+
     NavBar::end();
     ?>
 
