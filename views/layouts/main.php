@@ -109,6 +109,8 @@ $menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
             <a href="index.php?r=salary-map/index">Salary Mapping</a>
             <a href="index.php?r=salary/index">Salary Particulars</a>
             <a href="index.php?r=salary-history/index">Salary Appraisal</a>
+            <a href="index.php?r=tblsalarymappinghistory%2Fviewdata">Salary History</a>
+            
           </div>
 </div>');
 
