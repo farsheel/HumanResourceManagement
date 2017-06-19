@@ -24,12 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="tbl-payroll-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1 align="center"><?= Html::encode($this->title) ?></h1>
     <?php //$this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Employee Payroll', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     
     <div>
         <?php $form = ActiveForm::begin([
