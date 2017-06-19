@@ -57,7 +57,7 @@ $a[]=null;$n=1;
             {
              if($models1[$j]['vchr_particular_name']==$models[$k]['vchr_particular_name'])
                 {
-                    echo "<BR><h3>".$n." . ".$models1[$j]['vchr_particular_name']." has incremented from ". $models1[$j]['int_value']." to ".$models[$k]['int_value']." on ".$models[$k]['date_created']."</h3>";
+                    echo "<BR><h3>".$n." . ".$models1[$j]['vchr_particular_name']." has changed from ". $models1[$j]['int_value']." to ".$models[$k]['int_value']." on ".$models[$k]['date_created']."</h3>";
                         $n=$n+1;
                         $a[$i]=$models[$k]['vchr_particular_name'];
                 }
@@ -65,22 +65,15 @@ $a[]=null;$n=1;
             }
 
         }
-        }
-        }
-  
-  
-
-    
-
-
-
+    }
+  }
  for ($i=0; $i <count($models1)-1 ; $i++) { 
     
     if($models1[$i]['vchr_particular_name']==$models1[$i+1]['vchr_particular_name'])
     {
          
     
-        echo "<BR><h3>".$n.". ".$models1[$i]['vchr_particular_name']." has incremented from ". $models1[$i]['int_value']." to ".$models1[$i+1]['int_value']." on ".$models1[$i]['date_created']."</h3>";
+        echo "<BR><h3>".$n.". ".$models1[$i]['vchr_particular_name']." has changed from ". $models1[$i]['int_value']." to ".$models1[$i+1]['int_value']." on ".$models1[$i]['date_created']."</h3>";
     $n=$n+1;
 
      }
