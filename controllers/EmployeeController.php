@@ -1,5 +1,9 @@
 <?php
-
+/**
+*@author        :Farsheel
+*@Date          :08/06/2017
+*@LastModified  :20/06/2017
+*/
 namespace app\controllers;
 
 use Yii;
@@ -51,23 +55,23 @@ class EmployeeController extends Controller
         ];
     }
 
+    
     /**
      * Lists all Employee models.
      * @return mixed
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
 
-        $searchModel = new EmployeeSearch();
+        $searchModel = new EmployeeSearch(); 
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]); // Rendering the index page of employee that lists down employees
     }
 
     /**
@@ -77,9 +81,8 @@ class EmployeeController extends Controller
      */
     public function actionView($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -92,16 +95,16 @@ class EmployeeController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
+
         $model = new TblEmployee();
         $modelExperience=[new TblExperience];
         $modelQualification=[new TblQualification];
         $modelDocuments=[new TblEmployeeDocuments];
         $today=Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
 
-        $model->date_created=$today;
+        
         $model->date_modified=$today;
 
 
@@ -146,14 +149,14 @@ class EmployeeController extends Controller
                     if ($model->save()) {
                         foreach ($modelExperience as $modelExperience) {
                         
-                            $modelExperience->date_created=$today;
+                            
                             $modelExperience->date_modified=$today;
                             $modelExperience->fk_int_emp_id = $model->pk_int_emp_id;
                             $modelExperience->save();
 
                         }
                         foreach ($modelQualification as $modelQualification) {
-                            $modelQualification->date_created=$today;
+                           
                             $modelQualification->date_modified=$today;
                             $modelQualification->fk_int_emp_id = $model->pk_int_emp_id;
                             $modelQualification->save();
@@ -193,18 +196,6 @@ class EmployeeController extends Controller
     }
 
 
-    public function actionSent(){
-
-
-
-        $a=Yii::$app->mailer->compose()
-            ->setFrom('hrm@precoders.com')
-            ->setTo('hrm@precoders.com')
-            ->setSubject('New Registration')
-            ->setTextBody('Registration is completed please use this password:'.rand(100,20000))
-            ->send();
-            var_dump($a);
-    }
 
     /**
      * Updates an existing Employee model.
@@ -214,9 +205,8 @@ class EmployeeController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
+
         $model = $this->findModel($id);
 
         
@@ -248,11 +238,17 @@ class EmployeeController extends Controller
             $deletedDIDs = array_diff($oldDIDs, array_filter(ArrayHelper::map($modelDocuments, 'pk_int_document_id','pk_int_document_id')));
 
 
-            // validate all models
+                $model->file=UploadedFile::getInstance($model,'file');
+                if($model->file!=null)
+                {
+                $rdm=rand(0,1008);
+                $imageName="upload\\$model->vchr_name$rdm$model->file";
+                $model->file->saveAs($imageName);
+                $model->vchr_profile_pic=$imageName;
+                }
+
 
             $valid = $model->validate();
-            //$valid = Model::validateMultiple($modelExperience) && $valid;
-            //$valid = ModelQ::validateMultiple($modelQualification) && $valid;
 
             if ($valid) {
 
@@ -266,7 +262,7 @@ class EmployeeController extends Controller
 
 
                         foreach ($modelExperience as $modelExperience) {
-                            $modelExperience->date_created=$today;
+                            
                             $modelExperience->date_modified=$today;
 
                             $modelExperience->fk_int_emp_id = $model->pk_int_emp_id;
@@ -283,7 +279,6 @@ class EmployeeController extends Controller
                         }                        
 
                         foreach ($modelQualification as $modelQualification) {                        
-                            $modelQualification->date_created=$today;
                             $modelQualification->date_modified=$today;
 
                             $modelQualification->fk_int_emp_id = $model->pk_int_emp_id;
@@ -359,9 +354,8 @@ class EmployeeController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -376,9 +370,8 @@ class EmployeeController extends Controller
      */
     protected function findModel($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
+
         if (($model = TblEmployee::findOne($id)) !== null) {
             return $model;
         } else {
@@ -388,9 +381,7 @@ class EmployeeController extends Controller
 
     public function actionEmployee()
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck(); // Checking the admin is logged in or not
 
         return $this->redirect('/employee/web/index.php?r=user/index');
     }

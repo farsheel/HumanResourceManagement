@@ -57,6 +57,8 @@ class PayrollController extends Controller
      */
     public function actionIndex()
     {   
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest) 
         {
             return $this->redirect(['/site/login']);
@@ -82,6 +84,8 @@ class PayrollController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
         }
@@ -137,6 +141,8 @@ class PayrollController extends Controller
      */
     public function actionCreate()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
         }  
@@ -189,6 +195,8 @@ class PayrollController extends Controller
      */
     public function actionUpdate($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
         }
@@ -212,6 +220,8 @@ class PayrollController extends Controller
      */
     public function actionDelete($id)
     {
+
+        Yii::$app->CheckAdmin->authCheck();
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
         }
@@ -240,6 +250,8 @@ class PayrollController extends Controller
 
     public function actionDisplay()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
         }

@@ -45,6 +45,8 @@ class Payroll_for_allController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model      =   new TblPayroll();
         $searchModel = new payrolsearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -63,6 +65,7 @@ class Payroll_for_allController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -77,6 +80,8 @@ class Payroll_for_allController extends Controller
      */
      public function actionCreate()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if (Yii::$app->user->isGuest ) {
             return $this->redirect(['/site/login']);
 
@@ -89,6 +94,8 @@ class Payroll_for_allController extends Controller
     }
     public function actionSavepay()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model =new TblPayroll;
         if(Yii::$app->request->post())
         {
@@ -221,6 +228,9 @@ $rows = $query->all();
 
  public function actionDisplay()
     {
+
+        Yii::$app->CheckAdmin->authCheck();
+
         $model      =   new TblPayroll();
        
         // $model = new PayrollSearch;
@@ -277,6 +287,8 @@ $query->select (' pk_int_payroll_id,fk_int_emp_id,fk_int_payroll_year,tbl_employ
 
     public function actionUpdate($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

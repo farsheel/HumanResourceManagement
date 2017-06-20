@@ -46,6 +46,8 @@ class SalaryHistoryController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model= new TblEmployee();
         $dataProvider = new ActiveDataProvider([
             'query' => TblEmployee::find(),
@@ -64,6 +66,8 @@ class SalaryHistoryController extends Controller
      */
     public function actionView($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = $this->findModel($id);
         $modelSalaryMapping=  new TblSalaryMapping();
          $items = ArrayHelper::map(TblSalaryParticular::find()->all(), 'pk_int_particular_id', 'vchr_particular_name');
@@ -87,6 +91,8 @@ class SalaryHistoryController extends Controller
      */
     public function actionCreate($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = new TblEmployee();
 
         
@@ -104,6 +110,8 @@ class SalaryHistoryController extends Controller
      */
     public function actionUpdate($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = $this->findModel($id);
          $items = ArrayHelper::map(TblSalaryParticular::find()->all(), 'pk_int_particular_id', 'vchr_particular_name');
         $post_data=Yii::$app->request->post();
@@ -157,6 +165,8 @@ class SalaryHistoryController extends Controller
      */
     public function actionDelete($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

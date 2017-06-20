@@ -35,6 +35,8 @@ class LeaveController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $searchModel = new LeaveSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -63,6 +65,8 @@ class LeaveController extends Controller
      */
     public function actionCreate()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = new TblLeave();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -82,6 +86,8 @@ class LeaveController extends Controller
      */
     public function actionUpdate($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -101,6 +107,8 @@ class LeaveController extends Controller
      */
     public function actionDelete($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

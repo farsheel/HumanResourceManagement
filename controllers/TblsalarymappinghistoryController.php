@@ -43,7 +43,8 @@ class TblsalarymappinghistoryController extends Controller
      */
     public function actionIndex($id)
     {
-      
+        Yii::$app->CheckAdmin->authCheck();
+ 
 
 /*extracting data from tbl_employee*/
         $model=TblEmployee::findOne($id);
@@ -92,6 +93,7 @@ $dataProvider2 = new ActiveDataProvider([
      */
     public function actionView($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
 
         /*extracting data from tbl_employee*/
              $model1=TblEmployee::findOne($id);
@@ -163,6 +165,8 @@ $model2= ArrayHelper::map(TblSalaryParticular::find()->all(),'vchr_particular_na
 
     public function actionViewdata()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         $model=new TblEmployee();
 
         $dataProvider1 = new ActiveDataProvider([

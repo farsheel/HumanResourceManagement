@@ -51,6 +51,11 @@ $config = [
             'class' => 'app\components\Totalsal',
  
             ],
+        'CheckAdmin' => [
+ 
+            'class' => 'app\components\CheckAdmin',
+ 
+            ],
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
