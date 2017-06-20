@@ -43,7 +43,7 @@ class CheckAdmin extends Component
         if (!Yii::$app->user->isGuest ) {
             if(!$this->isAdmin())
             {
-            	return Yii::$app->getResponse()->redirect('../employee/web');
+            	return Yii::$app->getResponse()->redirect('/employee/');
 
             }
         }

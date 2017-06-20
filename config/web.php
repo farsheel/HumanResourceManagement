@@ -26,14 +26,6 @@ $config = [
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
-            'transport' => [
-                'class' => 'Swift_SmtpTransport',
-                'host' => 'mail.precoders.com',
-                'username' => 'hrm@precoders.com',
-                'password' => 'Farsheel@@@3',
-                'port' => '25',
-                'encryption' => 'tls',
-            ],
             'useFileTransport' => true,
         ],
         'log' => [
