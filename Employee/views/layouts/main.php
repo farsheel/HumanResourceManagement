@@ -93,6 +93,8 @@ $menu_bar=Yii::$app->user->isGuest ?($menu_bar.""): ($menu_bar.
           <div class="dropdown-content">
             <a href="index.php?r=user/leaveform">Apply Leave</a>
             <a href="index.php?r=user/viewtable">View Leave History</a>
+
+
           </div>
 </div>');
 
@@ -103,7 +105,9 @@ $menu_bar.='</div>';
         'items' => [
         Yii::$app->user->isGuest ?(""): (
             ['label' => 'My Profile', 'url' => ['user/profile']]),
-       
+
+       Yii::$app->user->isGuest ?(""): (
+            ['label' => 'Change Password', 'url' => ['password-change/index']]),
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
