@@ -43,9 +43,9 @@ $config = [
             'class' => 'app\components\Totalsal',
  
             ],
-        'checkAdmin' => [
+        'CheckAdmin' => [
  
-            'class' => 'app\components\checkAdmin',
+            'class' => 'app\components\CheckAdmin',
  
             ],
         /*
