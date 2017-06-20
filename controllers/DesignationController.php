@@ -1,5 +1,9 @@
 <?php
-
+/**
+*@author        :Farsheel
+*@Date          :10/06/2017
+*@LastModified  :20/06/2017
+*/
 namespace app\controllers;
 
 use Yii;
@@ -35,9 +39,8 @@ class DesignationController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $searchModel = new DesignationSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -54,9 +57,8 @@ class DesignationController extends Controller
      */
     public function actionView($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -69,9 +71,8 @@ class DesignationController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = new TblDesignation();
         $today=Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
         $model->date_created=$today;
@@ -93,9 +94,8 @@ class DesignationController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -115,9 +115,8 @@ class DesignationController extends Controller
      */
     public function actionDelete($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -132,9 +131,8 @@ class DesignationController extends Controller
      */
     protected function findModel($id)
     {
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         if (($model = TblDesignation::findOne($id)) !== null) {
             return $model;
         } else {

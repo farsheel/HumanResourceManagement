@@ -44,11 +44,11 @@ class TblEmployeeDocuments extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pk_int_document_id' => 'Pk Int Document ID',
+            'pk_int_document_id' => 'ID',
             'fk_int_employee_id' => 'Fk Int Employee ID',
-            'vchr_document_description' => 'Vchr Document Description',
-            'vchr_document_title' => 'Vchr Document Title',
-            'vchr_document' => 'Vchr Document',
+            'vchr_document_description' => 'Description',
+            'vchr_document_title' => 'Title',
+            'vchr_document' => 'Document',
         ];
     }
     public function getFkIntEmp()

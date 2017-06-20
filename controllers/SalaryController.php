@@ -44,9 +44,8 @@ class SalaryController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $get_data_index=Yii::$app->request->get();
         $message = (isset($get_data_index['del_status'])) ? $get_data_index['del_status'] : 'not set' ;
         $searchModel = new TblSalaryParticularSearch();
@@ -66,9 +65,8 @@ class SalaryController extends Controller
      */
     public function actionView($id)
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -81,9 +79,8 @@ class SalaryController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $model = new TblSalaryParticular();
 
         if ($model->load(Yii::$app->request->post())) {
@@ -132,6 +129,8 @@ class SalaryController extends Controller
      */
     public function actionDelete($id)
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         if($id==1)
         {
             return $this->redirect('index.php?r=salary/index&del_status=failbase');

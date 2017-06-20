@@ -60,6 +60,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        Yii::$app->CheckAdmin->authCheck();
+
         return $this->render('index');
     }
 

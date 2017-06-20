@@ -47,11 +47,11 @@ class TblExperience extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'pk_int_exp_id' => 'Pk Int Exp ID',
+            'pk_int_exp_id' => 'ID',
             'fk_int_emp_id' => 'Fk Int Emp ID',
-            'vchr_company' => 'Vchr Company',
-            'vchr_period' => 'Vchr Period',
-            'vchr_designation' => 'Vchr Designation',
+            'vchr_company' => 'Company',
+            'vchr_period' => 'Period',
+            'vchr_designation' => 'Designation',
             'date_created' => 'Date Created',
             'date_modified' => 'Date Modified',
         ];

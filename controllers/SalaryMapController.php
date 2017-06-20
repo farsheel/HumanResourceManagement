@@ -50,9 +50,8 @@ class SalaryMapController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         $get_data_index=Yii::$app->request->get();
         $message = (isset($get_data_index['status'])) ? $get_data_index['status'] : 'not set' ;
         
@@ -92,9 +91,8 @@ class SalaryMapController extends Controller
      */
     public function actionView($id)
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         //taking details of the salary mapping with the employee id
         $model=TblSalaryMapping::find()->where(['fk_int_emp_id' => $id])->orderBy(['fk_int_particular_id' => SORT_ASC]);
         //taking employee details from the id
@@ -115,9 +113,8 @@ class SalaryMapController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         //getting employee names to display in create page combo box
         $employee_name=ArrayHelper::map(TblEmployee::find()->asArray()->all(), 'pk_int_emp_id', 'vchr_name');
         $model = new TblSalaryMapping();
@@ -186,9 +183,8 @@ class SalaryMapController extends Controller
     public function actionUpdate($id)
     {
        
-       if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
 		$model_clear_object=new TblSalaryMapping(); 
         //getting particular id and value of the employee
     	$array_particularid_value = ArrayHelper::map(TblSalaryMapping::find()->where(['fk_int_emp_id' => $id])->all(), 'fk_int_particular_id', 'int_value');
@@ -234,9 +230,8 @@ class SalaryMapController extends Controller
 
         public function actionBatchUpdate()
             {
-                if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-                }
+        Yii::$app->CheckAdmin->authCheck();
+
                     //geting post parameters to variable
                     $post_data=Yii::$app->request->post();
 
@@ -280,9 +275,8 @@ class SalaryMapController extends Controller
      */
     public function actionDelete()
     {
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         //getting post parameters to array
         $post_array=Yii::$app->request->post();
         
@@ -316,9 +310,8 @@ class SalaryMapController extends Controller
     public function actionAjax()
     {   
         //checking wheather the user is already logged in or not
-        if (Yii::$app->user->isGuest ) {
-                return $this->redirect(['site/login']);
-        }
+        Yii::$app->CheckAdmin->authCheck();
+
         //getting post data for returning already stored particular values for a user
         if(isset($_POST['test'])){
 

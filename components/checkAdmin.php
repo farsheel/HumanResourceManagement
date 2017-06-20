@@ -1,9 +1,9 @@
 <?php
 
 /**
-* @author Farsheel Rahman
-* @date 10/6/17
-* @date-modified 10/6/17
+*@author 		:Farsheel
+*@Date 			:18/06/2017
+*@LastModified 	:20/06/2017
 */
 
 namespace app\components;
@@ -16,18 +16,41 @@ use yii\base\InvalidConfigException;
 class CheckAdmin extends Component
 {
 
-	public function check()
+
+	/**
+	* Checks the user admin or not
+	*/
+	public function isAdmin()
 	{
-		if (Yii::$app->user->isGuest )
-		{
-            return $this->redirect(['/site/login']);
-        }
-        elseif(Yii::$app->user->identity->fk_int_user_type!=1)
-        {
-			
-			redirect(['/hrm/employee/web']);
-        }
+
+			if(Yii::$app->user->identity->fk_int_user_type==1)
+		        {
+					        
+		            return true;
+		        }
         
-	}
+
+			return false;
  
+	}
+
+	/**
+    * Checks the user is logged in or not
+    *
+    */
+    public function authCheck()
+    {
+        if (!Yii::$app->user->isGuest ) {
+            if(!$this->isAdmin())
+            {
+            	return Yii::$app->getResponse()->redirect('../employee/web');
+
+            }
+        }
+        else
+        {
+        	return Yii::$app->getResponse()->redirect(['site/login']);
+            
+        }
+    }
 }

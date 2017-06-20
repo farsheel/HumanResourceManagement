@@ -17,6 +17,9 @@ class UserController extends \yii\web\Controller
 
     public function actionProfile()
     {
+         if (Yii::$app->user->isGuest ) {
+            return $this->redirect(['/site/login']);
+        }
 
         $id = Yii::$app->user->identity->pk_int_emp_id;
         return $this->render('profile',['model'=>$this->findModel($id)]);
@@ -26,7 +29,12 @@ class UserController extends \yii\web\Controller
 
     public function actionLeaveform()
 	{
-	    $model = new \app\models\TblLeave();
+	   if (Yii::$app->user->isGuest ) {
+            return $this->redirect(['/site/login']);
+        }
+
+
+        $model = new \app\models\TblLeave();
 
 	    if ($model->load(Yii::$app->request->post())) {
 
