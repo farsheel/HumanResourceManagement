@@ -59,11 +59,6 @@ class PayrollController extends Controller
     {   
         Yii::$app->CheckAdmin->authCheck();
 
-        if (Yii::$app->user->isGuest) 
-        {
-            return $this->redirect(['/site/login']);
-        }
-
         $model          =   new TblPayroll();
         $searchModel    =   new PayrollSearch();
         $dataProvider   =   $searchModel->search(Yii::$app->request->queryParams);
@@ -85,10 +80,6 @@ class PayrollController extends Controller
     public function actionView($id)
     {
         Yii::$app->CheckAdmin->authCheck();
-
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
 
        /**
         *ActiveDataProvider retrive data from tbl_payroll, tbl_employee, tbl_month, tbl_year Using Join.
@@ -143,10 +134,6 @@ class PayrollController extends Controller
     {
         Yii::$app->CheckAdmin->authCheck();
 
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }  
-
         $model      =   new TblPayroll();
         $salary     =   new TblSalaryMapping();
         $payroll    =   new TblPayrollDetails();         
@@ -196,11 +183,6 @@ class PayrollController extends Controller
     public function actionUpdate($id)
     {
         Yii::$app->CheckAdmin->authCheck();
-
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
-
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -222,9 +204,6 @@ class PayrollController extends Controller
     {
 
         Yii::$app->CheckAdmin->authCheck();
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
 
         $this->findModel($id)->delete();
 
@@ -251,11 +230,7 @@ class PayrollController extends Controller
     public function actionDisplay()
     {
         Yii::$app->CheckAdmin->authCheck();
-
-        if (Yii::$app->user->isGuest ) {
-            return $this->redirect(['/site/login']);
-        }
-
+        
         $model      =   new TblPayroll();   
         if(Yii::$app->request->post()!=null) 
         {
@@ -271,6 +246,8 @@ class PayrollController extends Controller
     
             if($dataProviderSearch)
             {
+                $model->fk_int_payroll_month  = $month;
+                $model->fk_int_payroll_year = $year;
                 return $this->render('index', [
                 'dataProviderSearch' => $dataProviderSearch,
                 'model' => $model,

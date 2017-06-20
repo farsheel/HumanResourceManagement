@@ -115,13 +115,15 @@ class SalaryHistoryController extends Controller
         $model = $this->findModel($id);
          $items = ArrayHelper::map(TblSalaryParticular::find()->all(), 'pk_int_particular_id', 'vchr_particular_name');
         $post_data=Yii::$app->request->post();
+
         $post_salary_mapping=$post_data['TblSalaryMapping'];
+
         $employee_id=$model->pk_int_emp_id;
         //get particular id
         $apsk=array_keys($items);
         $size=sizeof($post_salary_mapping);
-        $size-=1;
-        for($i=0;$i<=$size;$i++)
+        
+        for($i=0;$i<$size;$i++)
         {
              $record=TblSalaryMapping::findOne(['fk_int_emp_id' => $employee_id,'fk_int_particular_id' => $apsk[$i],]); 
              //insert data into tbl_salary_mapping_history
