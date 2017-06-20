@@ -45,7 +45,7 @@ $config = [
             ],
         'checkAdmin' => [
  
-            'class' => 'app\components\CheckAdmin',
+            'class' => 'app\components\checkAdmin',
  
             ],
         /*
