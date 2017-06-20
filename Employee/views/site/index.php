@@ -6,12 +6,11 @@ $this->title = 'Leave Form';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <div class="jumbotron" style="background-color: #16a085;color: white;
+" >
+        <h1>HUMAN RESOURCE MANAGEMENT SYSTEM..</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        
     </div>
 
     <div class="body-content">
