@@ -119,7 +119,7 @@ class EmployeeController extends Controller
 
             $model->vchr_password=sha1($password);
 
-                Yii::$app->mailer->compose()
+            Yii::$app->mailer->compose()
             ->setFrom('no-reply@hrm.com')
             ->setTo($model->vchr_email)
             ->setSubject('New Registration')
@@ -136,7 +136,7 @@ class EmployeeController extends Controller
 
                 $model->file=UploadedFile::getInstance($model,'file');
                 $rdm=rand(0,1008);
-                $imageName="upload\\$model->vchr_name$rdm$model->file";
+                $imageName="upload//$model->vchr_name$rdm$model->file";
                 $model->file->saveAs($imageName);
                 $model->vchr_profile_pic=$imageName;
 
@@ -146,7 +146,7 @@ class EmployeeController extends Controller
             $valid = Model::validateMultiple($modelExperience) && $valid;
             $valid= ModelQ::validateMultiple($modelQualification) && $valid;
             
-                    if ($model->save()) {
+                    if ($model->save(false)) {
                         foreach ($modelExperience as $modelExperience) {
                         
                             
@@ -159,7 +159,7 @@ class EmployeeController extends Controller
                            
                             $modelQualification->date_modified=$today;
                             $modelQualification->fk_int_emp_id = $model->pk_int_emp_id;
-                            $modelQualification->save();
+                            $modelQualification->save(false);
                             
                         }
                         foreach ($modelDocuments as $i=>$modelDocuments) {
@@ -167,7 +167,7 @@ class EmployeeController extends Controller
                             if($_FILES['TblEmployeeDocuments']['name']["$i"]['file']!="")
                             {
 
-                            $docName='upload\\'.$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
+                            $docName="upload/".$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
                            move_uploaded_file($_FILES['TblEmployeeDocuments']['tmp_name']["$i"]['file'], $docName);
                                                             
                             $modelDocuments->vchr_document=$docName;
@@ -218,7 +218,7 @@ class EmployeeController extends Controller
         $today=Yii::$app->formatter->asDate('now', 'yyyy-MM-dd');
 
         if ($model->load(Yii::$app->request->post())) {
-
+            
 
             $oldEIDs = ArrayHelper::map($modelExperience,'pk_int_exp_id','pk_int_exp_id');
             $modelExperience = Model::createMultiple(TblExperience::classname(), $modelExperience);
@@ -242,7 +242,7 @@ class EmployeeController extends Controller
                 if($model->file!=null)
                 {
                 $rdm=rand(0,1008);
-                $imageName="upload\\$model->vchr_name$rdm$model->file";
+                $imageName="upload//$model->vchr_name$rdm$model->file";
                 $model->file->saveAs($imageName);
                 $model->vchr_profile_pic=$imageName;
                 }
@@ -251,6 +251,7 @@ class EmployeeController extends Controller
             $valid = $model->validate();
 
             if ($valid) {
+                
 
                     if ($model->save(false)) {
 
@@ -304,7 +305,7 @@ class EmployeeController extends Controller
                             if($_FILES['TblEmployeeDocuments']['name']["$i"]['file']!="")
                             {
 
-                            $docName='upload\\'.$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
+                            $docName='upload//'.$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
                            move_uploaded_file($_FILES['TblEmployeeDocuments']['tmp_name']["$i"]['file'], $docName);
                                                             
                             $modelDocuments->vchr_document=$docName;

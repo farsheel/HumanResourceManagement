@@ -49,7 +49,7 @@ class TblEmployee extends \yii\db\ActiveRecord implements \yii\web\IdentityInter
     public function rules()
     {
         return [
-            [['vchr_name', 'vchr_gender', 'date_dob', 'vchr_email', 'vchr_nationality', 'vchr_mobile', 'vchr_address', 'vchr_profile_pic', 'fk_int_designation_id', 'fk_int_dep_id','date_created', 'date_modified'], 'required'],
+            [['vchr_name', 'vchr_gender', 'date_dob', 'vchr_email', 'vchr_nationality', 'vchr_mobile', 'vchr_address', 'vchr_profile_pic', 'fk_int_designation_id', 'fk_int_dep_id','date_created', 'date_modified','file'], 'required'],
             [['date_dob', 'date_created', 'date_modified'], 'safe'],
             [['file'],'file'],
             [['fk_int_designation_id', 'fk_int_dep_id','fk_int_user_type'], 'integer'],
