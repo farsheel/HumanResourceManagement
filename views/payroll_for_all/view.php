@@ -17,54 +17,27 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-   
-<?php  
-
-
-    ?>
+   <?php /*displays payroll details of every employee*/?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
             
              [
                 'label' => 'Year',
-                'value' => $model->fkIntPayrollYear->year,
+                'value' => $model->fk_int_payroll_year,
             ],
 
              [
                 'label' => 'Month',
-                'value' => $model->fkIntPayrollMonth->vchr_month,
+                'value' => $model->fk_int_payroll_month,
             ],
             'vchr_actual_hours',
             
            
            
         ],
-    ]) ?>
-
-<?php
-
- /*   $i=0;
-     foreach ($emp as $emp) {
-
-        echo DetailView::widget([
-        'model' => $emp,
-        'attributes' => [
-            
-             [
-                'label' => 'Employee Name',
-                'value' => $emp->vchr_name,
-            ],
-
-            
-           
-           
-        ],
-    ]) ;       
-*/
-    
-
-      echo GridView::widget([
+    ]) ;
+    echo GridView::widget([
         'dataProvider' => $provider,
         
         'columns' => [
@@ -81,11 +54,9 @@ $this->params['breadcrumbs'][] = $this->title;
             
             
 
-           // ['class' => 'yii\grid\ActionColumn'],
-         ]
+               ]
     );
-         $model=$provider->getModels();
-
+        
 
 
 ?>

@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\TblPayroll;
-use app\models\payrolsearch;
+use app\models\Payrollsearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,7 +48,7 @@ class Payroll_for_allController extends Controller
         Yii::$app->CheckAdmin->authCheck();
 
         $model      =   new TblPayroll();
-        $searchModel = new payrolsearch();
+        $searchModel = new Payrollsearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -87,9 +87,7 @@ class Payroll_for_allController extends Controller
 
     }
     $model =new TblPayroll;
-       return $this->render('create', [
-                'model' => $model,
-           ]);
+    return $this->render('create', [ 'model' => $model, ]);
 
     }
     public function actionSavepay()
@@ -101,12 +99,11 @@ class Payroll_for_allController extends Controller
         {
             $model->load(Yii::$app->request->post());
             if(($model->vchr_actual_hours==null))
-           {
+            {
                 
                 $data=Yii::$app->request->post();
-                $year=$data['TblPayroll']['fk_int_payroll_year'];
-                $month=$data['TblPayroll']['fk_int_payroll_month'];
-          
+                $year =$model->fkIntPayrollYear->year;
+                $month= $model->fkIntPayrollMonth->vchr_month;
                 $qry = new Query;
                 $employee = new TblEmployee;
                 $qry->select('pk_int_emp_id,vchr_name')
@@ -124,8 +121,8 @@ class Payroll_for_allController extends Controller
 
                 return  $this->render('_form', array('provider' => $provider, 'year'=>$year,'month'=>$month)); 
             }
-        else
-        {
+            else
+            {
             
             $payrol=new TblPayroll;
              if(Yii::$app->request->post())
@@ -136,86 +133,79 @@ class Payroll_for_allController extends Controller
                  $i=0;
                  $year=$model->fk_int_payroll_year;
                  $month=$model->fk_int_payroll_month;
+                 /*insert data to tbl_payroll for each employee*/
                  foreach ($employee as $employee) {
-                 $payrol = new TblPayroll;
-                 $payrol->fk_int_emp_id = $employee->pk_int_emp_id;
-                 $payrol->vchr_worked_hours  =$data[$i];
-                 
-                 $payrol->vchr_actual_hours = $model->vchr_actual_hours;
-                 $payrol->fk_int_payroll_month =$model->fk_int_payroll_month;
-                 $payrol->fk_int_payroll_year = $model->fk_int_payroll_year;
-                $payrol->isNewRecord = true;
-                $payrol->save(); 
-                $id=$payrol->pk_int_payroll_id;
+                     $payrol = new TblPayroll;
+                     $payrol->fk_int_emp_id = $employee->pk_int_emp_id;
+                     $payrol->vchr_worked_hours  =$data[$i];
+                     
+                     $payrol->vchr_actual_hours = $model->vchr_actual_hours;
+                     $payrol->fk_int_payroll_month =$model->fk_int_payroll_month;
+                     $payrol->fk_int_payroll_year = $model->fk_int_payroll_year;
+                     $payrol->isNewRecord = true;
+                     $payrol->save(); 
+                     $id=$payrol->pk_int_payroll_id;
+                    /*save data to payroll details for each payroll*/
+                         if($payrol->save()) 
+                         {   
+                            $salary = TblSalaryMapping::find()->where(['fk_int_emp_id' => $payrol->fk_int_emp_id])->all(); 
+                            foreach ($salary as $salary) 
+                            { 
+                                $payrolldetail = new TblPayrollDetails();
+                                $payrolldetail->fk_salary_particular_id = $salary->fk_int_particular_id;
+                                $payrolldetail->fk_int_payroll_id = $payrol->pk_int_payroll_id;
+                                if($salary->fk_int_particular_id==1) 
+                                {   
+
+                                  $sal = (($salary->int_value / $model->vchr_actual_hours)*$data[$i]);
+                                  $modifiedSalary=round($sal);
+                                  $payrolldetail->int_amount = $modifiedSalary;
+                               
+                                }
+                                else
+                                {
+                                $payrolldetail->int_amount = $salary->int_value;
+                                }
+                                $payrolldetail->isNewRecord = true;
+                                $payrolldetail->save(); 
+
+         
+                            }   
+
+                        }}
                 
-                 if($payrol->save()) 
-                 {   
-                $salary = TblSalaryMapping::find()->where(['fk_int_emp_id' => $payrol->fk_int_emp_id])->all(); 
-                foreach ($salary as $salary) 
-                { 
-                    
-                    //$salaryParticular = TblSalaryParticular::find()->all();
-
-                    $payrolldetail = new TblPayrollDetails();
-                    $payrolldetail->fk_salary_particular_id = $salary->fk_int_particular_id;
-                    $payrolldetail->fk_int_payroll_id = $payrol->pk_int_payroll_id;
-                    if($salary->fk_int_particular_id==1) 
-
-
-
-                    {   
-
-                      $sal = (($salary->int_value / $model->vchr_actual_hours)*$data[$i]);
-                         $modifiedSalary=round($sal);
-                        
-                           
-                           $payrolldetail->int_amount = $modifiedSalary;
-                   
-                  }
-                    else
-                    {
-                    $payrolldetail->int_amount = $salary->int_value;
-                    }
-                    $payrolldetail->isNewRecord = true;
-                    $payrolldetail->save(); 
-
- 
-                    }   
-
-            }}
-        
        
         }}/*to display details in view..*/
 
       
 
 
-$query = new Query;
-// compose the query
-$query->select (' pk_int_payroll_id,fk_int_emp_id,tbl_employee.vchr_name,tbl_payroll_year.year,tbl_payroll.vchr_actual_hours,tbl_payroll.vchr_worked_hours,tbl_payroll_month.vchr_month,tbl_payroll_details.int_amount,tbl_salary_particular.vchr_particular_name')
+        $query = new Query;
+        // compose the query
+        $query->select (' pk_int_payroll_id,fk_int_emp_id,tbl_employee.vchr_name,tbl_payroll_year.year,tbl_payroll.vchr_actual_hours,tbl_payroll.vchr_worked_hours,tbl_payroll_month.vchr_month,tbl_payroll_details.int_amount,tbl_salary_particular.vchr_particular_name')
 
-    ->from('tbl_payroll')
-    ->innerJoin('tbl_employee','tbl_payroll.fk_int_emp_id=tbl_employee.pk_int_emp_id')
-    ->innerJoin('tbl_payroll_month','tbl_payroll.fk_int_payroll_month=tbl_payroll_month.pk_int_payroll_month_id')
-    ->innerJoin('tbl_payroll_year','tbl_payroll.fk_int_payroll_year=tbl_payroll_year.pk_int_payroll_year_id')
-    ->innerJoin('tbl_payroll_details','tbl_payroll.pk_int_payroll_id=tbl_payroll_details.fk_int_payroll_id')
-    ->innerJoin('tbl_salary_particular','tbl_payroll_details.fk_salary_particular_id=tbl_salary_particular.pk_int_particular_id')
-    
-    //->groupBy('pk_int_payroll_id')
-    ->where('fk_int_payroll_year=:year&&fk_int_payroll_month=:month',array(':year'=>$year,':month'=>$month));
-    
-// build and execute the query
-$rows = $query->all();
+            ->from('tbl_payroll')
+            ->innerJoin('tbl_employee','tbl_payroll.fk_int_emp_id=tbl_employee.pk_int_emp_id')
+            ->innerJoin('tbl_payroll_month','tbl_payroll.fk_int_payroll_month=tbl_payroll_month.pk_int_payroll_month_id')
+            ->innerJoin('tbl_payroll_year','tbl_payroll.fk_int_payroll_year=tbl_payroll_year.pk_int_payroll_year_id')
+            ->innerJoin('tbl_payroll_details','tbl_payroll.pk_int_payroll_id=tbl_payroll_details.fk_int_payroll_id')
+            ->innerJoin('tbl_salary_particular','tbl_payroll_details.fk_salary_particular_id=tbl_salary_particular.pk_int_particular_id')
+            
+            //->groupBy('pk_int_payroll_id')
+            ->where('fk_int_payroll_year=:year&&fk_int_payroll_month=:month',array(':year'=>$year,':month'=>$month));
+            
+        // build and execute the query
+        $rows = $query->all();
 
    
- $provider = new ActiveDataProvider([
+         $provider = new ActiveDataProvider([
     'query' => $query,
-   'pagination' => [
+  /* 'pagination' => [
        'pageSize' => 10,
-    ],
+    ],*/
     ]);
- $i++;
-     $emp =TblEmployee::find()->all();
+            $i++;
+         $emp =TblEmployee::find()->all();
 
      return $this->render('view',array('provider' => $provider,'model'=>$model,'emp'=>$emp));
      //return $this->render('index',array('model'=>$model));
@@ -246,23 +236,20 @@ $rows = $query->all();
 
              $query = new Query;
 // compose the query
-$query->select (' pk_int_payroll_id,fk_int_emp_id,fk_int_payroll_year,tbl_employee.vchr_name,fk_int_payroll_month,vchr_actual_hours,vchr_worked_hours,tbl_payroll_details.int_amount,tbl_payroll_details.fk_salary_particular_id,tbl_salary_particular.vchr_particular_name')
+    $query->select (' pk_int_payroll_id,fk_int_emp_id,fk_int_payroll_year,tbl_employee.vchr_name,fk_int_payroll_month,vchr_actual_hours,vchr_worked_hours,tbl_payroll_details.int_amount,tbl_payroll_details.fk_salary_particular_id,tbl_salary_particular.vchr_particular_name')
 
          ->from('tbl_payroll')
          ->innerJoin('tbl_employee','tbl_payroll.fk_int_emp_id=tbl_employee.pk_int_emp_id')
     ->innerJoin('tbl_payroll_month','tbl_payroll.fk_int_payroll_month=tbl_payroll_month.pk_int_payroll_month_id')
     ->innerJoin('tbl_payroll_year','tbl_payroll.fk_int_payroll_year=tbl_payroll_year.pk_int_payroll_year_id')
-    
-          ->innerJoin('tbl_payroll_details','tbl_payroll.pk_int_payroll_id=tbl_payroll_details.fk_int_payroll_id')
-           ->innerJoin('tbl_salary_particular','tbl_payroll_details.fk_salary_particular_id=tbl_salary_particular.pk_int_particular_id')
-   
-             ->where('fk_int_payroll_year=:year&&fk_int_payroll_month=:month',array(':year'=>$year,':month'=>$month));
-            $rows = $query->all();
+    ->innerJoin('tbl_payroll_details','tbl_payroll.pk_int_payroll_id=tbl_payroll_details.fk_int_payroll_id')
+    ->innerJoin('tbl_salary_particular','tbl_payroll_details.fk_salary_particular_id=tbl_salary_particular.pk_int_particular_id')
+    ->where('fk_int_payroll_year=:year&&fk_int_payroll_month=:month',array(':year'=>$year,':month'=>$month));
+    $rows = $query->all();
          
-            $providersearch = new ActiveDataProvider
-            ([
-                'query' => $query,//TblPayroll::find()->where(['fk_int_payroll_month'=>$month, 'fk_int_payroll_year'=> $year]),
-               // 'pagination' => ['pageSize' => 5],
+    $providersearch = new ActiveDataProvider
+     ([
+                'query' => $query,
             ]);
            
 

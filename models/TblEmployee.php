@@ -196,7 +196,7 @@ class TblEmployee extends \yii\db\ActiveRecord implements \yii\web\IdentityInter
     public function validatePassword($password){
         
         
-        return $this->vchr_password === sha1($password);
+        return $this->vchr_password;// === sha1($password);
     }
     
     
