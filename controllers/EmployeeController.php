@@ -305,7 +305,7 @@ class EmployeeController extends Controller
                             if($_FILES['TblEmployeeDocuments']['name']["$i"]['file']!="")
                             {
 
-                            $docName='upload\\'.$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
+                            $docName='upload//'.$model->vchr_name.$rdm.$_FILES['TblEmployeeDocuments']['name']["$i"]['file'];
                            move_uploaded_file($_FILES['TblEmployeeDocuments']['tmp_name']["$i"]['file'], $docName);
                                                             
                             $modelDocuments->vchr_document=$docName;
