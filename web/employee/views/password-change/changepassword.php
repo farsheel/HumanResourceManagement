@@ -34,9 +34,9 @@ echo Alert::widget([
   $form = ActiveForm::begin(['action' =>'index.php?r=password-change/changepassword&id='.$id , 'method' => 'post']); ?>
    <?php
           	
-          	 echo $form->field($model, 'old_password')->textInput(['maxlength' => true, 'placeholder' => 'Enter your Old Password'])->label("Password");
-              echo $form->field($model, 'new_password')->textInput(['maxlength' => true, 'placeholder' => 'Enter your New Password'])->label("New Password");
-              echo $form->field($model, 'repeat_password')->textInput(['maxlength' => true, 'placeholder' => 'Repeat New Password'])->label("ReEnter Password");
+          	 echo $form->field($model, 'old_password')->passwordInput(['maxlength' => true, 'placeholder' => 'Enter your Old Password'])->label("Password");
+              echo $form->field($model, 'new_password')->passwordInput(['maxlength' => true, 'placeholder' => 'Enter your New Password'])->label("New Password");
+              echo $form->field($model, 'repeat_password')->passwordInput(['maxlength' => true, 'placeholder' => 'Repeat New Password'])->label("ReEnter Password");
              //echo $form->field($model, 'vchr_password')->textInput(['maxlength' => true, 'placeholder' => 'Enter your New Password'])->label("New Password");
 
 
