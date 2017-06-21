@@ -138,6 +138,9 @@ $menu_bar.='</div>';
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
+        Yii::$app->user->isGuest ?(""): (
+            ['label' => 'Change Password', 'url' => ['password-change/index']]),
+
 
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]

@@ -42,7 +42,9 @@ class TblEmployee extends \yii\db\ActiveRecord implements \yii\web\IdentityInter
     {
         return 'tbl_employee';
     }
-
+    public $old_password;
+    public $new_password;
+    public $repeat_password;
     /**
      * @inheritdoc
      */
